@@ -1,0 +1,47 @@
+plugins {
+    id("java")
+    id ("io.qameta.allure") version "2.10.0"
+}
+
+group = "com.libertex"
+version = "1.0-SNAPSHOT"
+
+repositories {
+    mavenCentral()
+}
+def allureVersion = "2.8.0"
+
+dependencies {
+    implementation("org.testng:testng:7.1.0")
+    testImplementation("org.testng:testng:7.8.0")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.squareup.retrofit2:converter-gson:2.3.0")
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    testImplementation("org.slf4j:slf4j-simple:2.0.9")
+    implementation("io.qameta.allure:allure-testng:2.18.1")
+    implementation("io.qameta.allure:allure-java-commons:2.18.1")
+    runtimeOnly("org.aspectj:aspectjweaver:1.9.20.1")
+    implementation("io.qameta.allure:allure-okhttp3:2.18.1")
+
+}
+
+allure {
+    version = "2.8.0"
+    adapter{
+        aspectjVersion.set("1.9.5")
+        aspectjWeaver.set(true)}
+}
+
+test {
+    systemProperties System.getProperties()
+
+    useTestNG() {
+        useDefaultListeners = false
+        ignoreFailures = true
+        testLogging {
+            events "passed", "skipped", "failed", "STANDARD_ERROR"
+            exceptionFormat "full"
+        }
+    }
+}
