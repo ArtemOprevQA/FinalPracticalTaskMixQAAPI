@@ -23,6 +23,7 @@ dependencies {
     implementation("io.qameta.allure:allure-java-commons:2.18.1")
     runtimeOnly("org.aspectj:aspectjweaver:1.9.20.1")
     implementation("io.qameta.allure:allure-okhttp3:2.18.1")
+    compileOnly("org.projectlombok:lombok:1.18.30")
 
 }
 

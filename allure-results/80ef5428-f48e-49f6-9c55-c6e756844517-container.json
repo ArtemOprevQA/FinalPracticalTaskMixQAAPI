@@ -1,1 +1,0 @@
-{"uuid":"80ef5428-f48e-49f6-9c55-c6e756844517","name":"com.libertex.aqa.mixqa.practictask.api.ApiTest","children":["a10dff2d-01c8-4f03-8254-b60bee3a9151"],"befores":[{"name":"setUp","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1696924015915,"stop":1696924016042}],"afters":[],"start":1696924015886,"stop":1696924017566}

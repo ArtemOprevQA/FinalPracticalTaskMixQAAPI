@@ -1,15 +1,17 @@
-package com.libertex.aqa.mixqa.practictask.api;
+package com.libertex.aqa.mixqa.practictask.api.bankstatements.Model;
 
+import lombok.Data;
 import okhttp3.MediaType;
 import okio.BufferedSink;
 
 import java.io.IOException;
 
-public class RequestBody extends okhttp3.RequestBody {
+@Data
+public class BankDetailsRequestBody extends okhttp3.RequestBody {
     private String requisite;
     private String languageIso3;
 
-    public RequestBody(String requisite, String languageIso3) {
+    public BankDetailsRequestBody(String requisite, String languageIso3) {
         this.requisite = requisite;
         this.languageIso3 = languageIso3;
     }
