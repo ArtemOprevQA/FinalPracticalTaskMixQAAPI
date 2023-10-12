@@ -26,26 +26,19 @@ public class GetBankDetailsApiTest extends BaseTest {
 
         Response<BankDetailsResponse> response = apiServiceHelper.executeApiRequest(basicAuth, requisite, languageIso3);
 
-        if (response != null && response.body() != null) {
-            List<Requisite> requisites = response.body().getRequisites();
+        assert response.body() != null;
+        List<Requisite> requisites = response.body().getRequisites();
 
-            if (!requisites.isEmpty()) {
-                Requisite firstRequisite = requisites.get(0);
-                String name = firstRequisite.getBankInfo().getName();
+        Requisite firstRequisite = requisites.get(0);
+        String name = firstRequisite.getBankInfo().getName();
 
-                if ("JSC RIETUMU BANKA".equals(name)) {
-                    logger.info("The response contains the expected name: JSC RIETUMU BANKA");
-                } else {
-                    logger.info("The response does not contain the expected name.");
-                }
-            } else {
-                logger.info("The response contains no requisites.");
-            }
+        if ("JSC RIETUMU BANKA".equals(name)) {
+            logger.info("The response contains the expected name: JSC RIETUMU BANKA");
         } else {
-            logger.info("API response is null or empty.");
+            logger.info("The response does not contain the expected name.");
         }
 
-        }
     }
+}
 
 
