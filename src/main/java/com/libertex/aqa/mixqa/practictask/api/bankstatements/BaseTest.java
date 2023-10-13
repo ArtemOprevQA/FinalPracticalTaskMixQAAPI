@@ -7,20 +7,29 @@ import org.testng.annotations.BeforeClass;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
+
 @Data
 public class BaseTest {
 
     protected BankDetailsApiService apiService;
 
     @BeforeClass
-    public BankDetailsApiService  setUp() {
+    public BankDetailsApiService setUp() {
+
+        Properties properties = loadConfigProperties();
+        String baseUrl = properties.getProperty("api.base.url1");
+
         final AllureOkHttp3 allureOkHttp3 = new AllureOkHttp3();
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(allureOkHttp3)
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://fxbank-bvi-rest-fxb2-priv.qa-env.com/rest/bank_statements_api/")
+                .baseUrl(baseUrl + "/rest/bank_statements_api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -28,5 +37,14 @@ public class BaseTest {
         apiService = retrofit.create(BankDetailsApiService.class);
 
         return apiService;
+    }
+    private Properties loadConfigProperties() {
+        Properties properties = new Properties();
+        try (FileInputStream fis = new FileInputStream("config.properties")) {
+            properties.load(fis);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return properties;
     }
 }
