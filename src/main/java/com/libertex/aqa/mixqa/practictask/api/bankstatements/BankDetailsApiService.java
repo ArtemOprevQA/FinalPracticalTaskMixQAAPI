@@ -1,6 +1,6 @@
 package com.libertex.aqa.mixqa.practictask.api.bankstatements;
 
-import com.libertex.aqa.mixqa.practictask.api.bankstatements.Model.BankDetailsResponse;
+import com.libertex.aqa.mixqa.practictask.api.bankstatements.model.BankDetailsResponse;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
