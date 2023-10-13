@@ -26,8 +26,9 @@ public class GetBankDetailsApiTest extends BaseTest {
 
         Response<BankDetailsResponse> response = apiServiceHelper.executeApiRequest(basicAuth, requisite, languageIso3);
 
-        assert response.body() != null;
-        List<Requisite> requisites = response.body().getRequisites();
+        Response<BankDetailsResponse> validatedResponse = apiServiceHelper.basicValidation(response);
+
+        List<Requisite> requisites = validatedResponse.body().getRequisites();
 
         Requisite firstRequisite = requisites.get(0);
         String name = firstRequisite.getBankInfo().getName();
@@ -37,7 +38,6 @@ public class GetBankDetailsApiTest extends BaseTest {
         } else {
             logger.info("The response does not contain the expected name.");
         }
-
     }
 }
 
