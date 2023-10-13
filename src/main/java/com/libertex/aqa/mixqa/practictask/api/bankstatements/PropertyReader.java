@@ -10,10 +10,12 @@ public class PropertyReader {
 
         Properties properties = new Properties();
 
-        try (FileInputStream fileInputStreams = new FileInputStream("config.properties")) {
-            properties.load(fileInputStreams);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (properties != null) {
+            try (FileInputStream fileInputStreams = new FileInputStream("config.properties")) {
+                properties.load(fileInputStreams);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return properties;
     }
