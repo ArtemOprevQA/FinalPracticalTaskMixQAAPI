@@ -7,23 +7,21 @@ import org.testng.annotations.Test;
 import retrofit2.Response;
 
 import java.io.IOException;
-import java.util.Base64;
 import java.util.List;
 
 @Slf4j
 public class GetBankDetailsApiTest extends BaseTest {
 
+    String requisite = "LV51RTMB0000621806801";
+    String languageIso3 = "rus";
     @Test
     public void testGetOrgBankDetails() throws IOException {
 
-        String credentials = "login:pass";
-        String basicAuth = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
-        String requisite = "LV51RTMB0000621806801";
-        String languageIso3 = "rus";
-
         BankStatementsApiHelper apiServiceHelper = new BankStatementsApiHelper();
 
-        Response<BankDetailsResponse> response =apiServiceHelper.executeApiRequest(basicAuth, requisite, languageIso3);
+        //BankStatementsApiHelper basicAuth = new BankStatementsApiHelper();
+
+        Response<BankDetailsResponse> response =apiServiceHelper.executeApiRequest(requisite, languageIso3);
 
         List<Requisite> requisites = response.body().getRequisites();
 

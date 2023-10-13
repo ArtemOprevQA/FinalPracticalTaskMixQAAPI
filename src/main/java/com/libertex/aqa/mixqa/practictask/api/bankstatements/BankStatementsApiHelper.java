@@ -13,6 +13,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Properties;
 @Slf4j
 public class BankStatementsApiHelper {
@@ -43,8 +44,13 @@ public class BankStatementsApiHelper {
     }
 
     @Step("Test of successful execution of the request")
-    public Response<BankDetailsResponse> executeApiRequest(String basicAuth, String requisite, String languageIso3) throws IOException {
+    public Response<BankDetailsResponse> executeApiRequest(String requisite, String languageIso3) throws IOException {
 
+        PropertyReader propertyReader = new PropertyReader();
+        Properties properties = propertyReader.loadConfigProperties();
+        String credentials = properties.getProperty("credentials");
+
+        String basicAuth = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
 
         BankDetailsRequestBody requestBody = new BankDetailsRequestBody(requisite, languageIso3);
 
