@@ -3,6 +3,7 @@ package com.libertex.aqa.mixqa.practictask.api.bankstatements;
 import com.libertex.aqa.mixqa.practictask.api.bankstatements.model.BankDetailsResponse;
 import com.libertex.aqa.mixqa.practictask.api.bankstatements.model.Requisite;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 import retrofit2.Response;
 
@@ -21,18 +22,15 @@ public class GetBankDetailsApiTest extends BaseTest {
 
         //BankStatementsApiHelper basicAuth = new BankStatementsApiHelper();
 
-        Response<BankDetailsResponse> response =apiServiceHelper.executeApiRequest(requisite, languageIso3);
+        Response<BankDetailsResponse> response =apiServiceHelper.getOrgBankDetails(requisite, languageIso3);
 
         List<Requisite> requisites = response.body().getRequisites();
 
         Requisite firstRequisite = requisites.get(0);
         String name = firstRequisite.getBankInfo().getName();
 
-        if ("JSC RIETUMU BANKA".equals(name)) {
-            log.info("The response contains the expected name: JSC RIETUMU BANKA");
-        } else {
-            log.info("The response does not contain the expected name.");
-        }
+        Assertions.assertThat(name).isEqualTo("JSC RIETUMU BANKA");
+
     }
 }
 

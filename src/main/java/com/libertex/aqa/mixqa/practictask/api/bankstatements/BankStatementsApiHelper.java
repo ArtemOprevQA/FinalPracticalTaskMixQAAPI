@@ -43,8 +43,8 @@ public class BankStatementsApiHelper {
 
     }
 
-    @Step("Test of successful execution of the request")
-    public Response<BankDetailsResponse> executeApiRequest(String requisite, String languageIso3) throws IOException {
+    @Step("getOrgBankDetails")
+    public Response<BankDetailsResponse> getOrgBankDetails(String requisite, String languageIso3) throws IOException {
 
         PropertyReader propertyReader = new PropertyReader();
         Properties properties = propertyReader.loadConfigProperties();
