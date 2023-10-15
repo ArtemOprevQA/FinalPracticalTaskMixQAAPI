@@ -40,7 +40,6 @@ public class BankStatementsApiHelper {
                 .build();
 
         apiServiceHelper = retrofit.create(BankDetailsApiService.class);
-
     }
 
     @Step("getOrgBankDetails")

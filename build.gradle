@@ -25,7 +25,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.26'
     testCompileOnly 'org.projectlombok:lombok:1.18.26'
     testImplementation("org.assertj:assertj-core:3.11.1")
-
 }
 
 allure {

@@ -15,14 +15,10 @@ public class GetBankDetailsApiTest extends BaseTest {
 
     String requisite = "LV51RTMB0000621806801";
     String languageIso3 = "rus";
-    @Test
+    @Test(description = "Response body contains bank name - JSC RIETUMU BANKA")
     public void testGetOrgBankDetails() throws IOException {
 
-        BankStatementsApiHelper apiServiceHelper = new BankStatementsApiHelper();
-
-        //BankStatementsApiHelper basicAuth = new BankStatementsApiHelper();
-
-        Response<BankDetailsResponse> response =apiServiceHelper.getOrgBankDetails(requisite, languageIso3);
+        Response<BankDetailsResponse> response =bankStatementsApiHelper.getOrgBankDetails(requisite, languageIso3);
 
         List<Requisite> requisites = response.body().getRequisites();
 
