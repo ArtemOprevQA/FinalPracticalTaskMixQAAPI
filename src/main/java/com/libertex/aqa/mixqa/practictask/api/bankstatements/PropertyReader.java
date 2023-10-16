@@ -6,17 +6,24 @@ import java.util.Properties;
 
 public class PropertyReader {
 
-    public Properties loadConfigProperties() {
+    private static final Properties PROPERTIES = new Properties();
 
-        Properties properties = new Properties();
+    private PropertyReader() {
+    }
 
-        if (properties != null) {
+    public static void loadConfigProperties() {
+
             try (FileInputStream fileInputStreams = new FileInputStream("config.properties")) {
-                properties.load(fileInputStreams);
+                PROPERTIES.load(fileInputStreams);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+    }
+
+    public static String getProperty(String name){
+        if (PROPERTIES.isEmpty()){
+            loadConfigProperties();
         }
-        return properties;
+        return PROPERTIES.getProperty(name);
     }
 }

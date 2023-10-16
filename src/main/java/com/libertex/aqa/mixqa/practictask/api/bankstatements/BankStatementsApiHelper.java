@@ -6,7 +6,6 @@ import io.qameta.allure.Step;
 import io.qameta.allure.okhttp3.AllureOkHttp3;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -14,19 +13,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import java.io.IOException;
 import java.util.Base64;
-import java.util.Properties;
 @Slf4j
 public class BankStatementsApiHelper {
 
     private final BankDetailsApiService apiServiceHelper;
 
+    private static final String endPoint = "/rest/bank_statements_api/";
     public BankStatementsApiHelper() {
 
-        String endPoint = "/rest/bank_statements_api/";
-
-        PropertyReader propertyReader = new PropertyReader();
-        Properties properties = propertyReader.loadConfigProperties();
-        String baseUrl = properties.getProperty("api.base.url1");
+        String baseUrl = PropertyReader.getProperty("api.base.url");
 
         final AllureOkHttp3 allureOkHttp3 = new AllureOkHttp3();
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -43,41 +38,31 @@ public class BankStatementsApiHelper {
     }
 
     @Step("getOrgBankDetails")
-    public Response<BankDetailsResponse> getOrgBankDetails(String requisite, String languageIso3) throws IOException {
+    public BankDetailsResponse getOrgBankDetails(String requisite, String languageIso3) throws IOException {
 
-        PropertyReader propertyReader = new PropertyReader();
-        Properties properties = propertyReader.loadConfigProperties();
-        String credentials = properties.getProperty("credentials");
+
+        String credentials = PropertyReader.getProperty("APIcredentials");
 
         String basicAuth = "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes());
 
         BankDetailsRequestBody requestBody = new BankDetailsRequestBody(requisite, languageIso3);
 
-        Call<BankDetailsResponse> call = apiServiceHelper.getOrgBankDetails(basicAuth, requestBody);
+        Call <BankDetailsResponse> call = apiServiceHelper.getOrgBankDetails(basicAuth, requestBody);
 
         return basicValidation(call.execute());
     }
 
     @Step("Response is successful and has body")
-    private Response<BankDetailsResponse> basicValidation(Response<BankDetailsResponse> response) throws IOException {
+    private BankDetailsResponse basicValidation(Response <BankDetailsResponse> response) throws IOException {
 
         if (response.isSuccessful()) {
-            BankDetailsResponse apiResponseBody = response.body();
-            if (apiResponseBody != null) {
-                log.info("The response is {}", response);
-            }
+            log.info("The response is {}", response.body());
+            return response.body();
         } else {
-            int errorCode = response.code();
-            String errorMessage = response.message();
-            log.error("Error {}:{}", errorCode, errorMessage);
+            log.error("Error {}", response.message());
+            throw new IOException("Request was not successful: " + response.message());
 
-            ResponseBody errorBody = response.errorBody();
-            if (errorBody != null) {
-                String errorResponseString = errorBody.string();
-                log.error("Error Response Body: {}", errorResponseString);
-            }
         }
-        return response;
         }
     }
 
